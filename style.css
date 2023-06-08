@@ -22,14 +22,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  overflow: hidden;
   margin: 0;
 }
 
 .user-form {
   width: 100%;
   max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-form input {
@@ -40,6 +42,7 @@ body {
   border-radius: 10px;
   color: var(--clr-text);
   padding: 1rem;
+  margin-top: 0.5rem;
   margin-bottom: 2rem;
   font-family: inherit;
   font-size: 1rem;
@@ -62,8 +65,10 @@ body {
   box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
     0 15px 40px rgba(0, 0, 0, 0.1);
   display: flex;
-  padding: 3rem;
+  padding: 2rem 3rem 1rem;
   margin: 0 1.5rem;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .avatar {
@@ -94,13 +99,37 @@ body {
   display: flex;
   align-items: center;
 }
+button {
+  color: #090909;
+  padding: 0.7em 1.7em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  transition: all .3s;
+ 
+}
 
+button:hover {
+  border: 1px solid white;
+}
+
+button:active {
+  box-shadow: 4px 4px 12px #c5c5c5,
+             -4px -4px 12px #ffffff;
+}
 .user-info ul li strong {
   font-size: 0.9rem;
   margin-left: 0.5rem;
 }
-
+#repos{
+  display: flex;
+flex-wrap: wrap;
+ 
+}
 .repo {
+  width: 250px;
+  border-radius: 10px;
   text-decoration: none;
   color: var(--clr-text);
   background-color: var(--clr-tertiary);
@@ -109,8 +138,22 @@ body {
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   display: inline-block;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
+.repo h3{
+  color: #9a9aff;
+  font-size: 0.9rem;
+}
+.repo h4{
 
+  font-size: 0.8rem;
+}
+.repo p {
+  font-size: 0.7rem;
+}
 @media (max-width: 500px) {
   .card {
     flex-direction: column;

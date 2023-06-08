@@ -9,39 +9,28 @@ formEl.addEventListener("submit", (e) => {
   if (user) {
     getUser(user);
     searchEl.value = "";
+    mainEl.innerHTML = "";
   }
 });
 
 async function getUser(username) {
-  // fetch(API_URL + username)
-  //   .then((res) => {
-  //     if (res.status == 404) {
-  //       createErrorCard(`User ${username} not found `);
-  //       return;
-  //     }
-  //     if (res.ok) {
-  //       return res.json();
-  //     }
-  //   })
-  //   .then((data) => console.log(data))
-  //   .catch((err) => {
-  //     createErrorCard("Problem fetching user");
-  //   });
-
   try {
     const res = await fetch(API_URL + username);
+
     if (res.status == 404) {
       createErrorCard(`User ${username} not found `);
       return;
     }
     if (res.ok) {
-      const data = res.json();
-      console.log(data);
+      const data = await res.json();
+      createCardUser(data);
+      getRepos(username);
     }
   } catch (error) {
     createErrorCard("Error to fetching");
   }
 }
+
 function createErrorCard(message) {
   const cardHtml = `<div class="card">
   <h1>${message}</h1>
@@ -50,10 +39,11 @@ function createErrorCard(message) {
   mainEl.innerHTML = cardHtml;
 }
 
-async function getUser() {
+async function getRepos(username) {
   try {
     const res = await fetch(`${API_URL + username}/repos?sort=created`);
     const data = await res.json();
+    addReposToCard(data);
   } catch (error) {
     createErrorCard();
   }
@@ -72,11 +62,13 @@ function createCardUser(user) {
    <div class="user-info"><h2>${userId}</h2>
    ${userBio}
    <ul>
-   <li>${user.followers} <strong>Followers</strong></li>
-   <li>${user.following} <strong>Following</strong></li>
-   <li>${user.public_repos} <strong>Repos:</strong></li>
+   <li> <strong>Followers : </strong> ${user.followers}</li>
+   <li><strong>Following : </strong> ${user.following} </li>
+   <li><strong>Repos:</strong> ${user.public_repos}</li>
    </ul>
-   <div id="repos"></div>
+   <h5>Repos Details...</h5>
+   <div id="repos">
+   </div>
    </div>
    </div>
   `;
@@ -86,12 +78,14 @@ function createCardUser(user) {
 
 function addReposToCard(repos) {
   const reposEl = document.querySelector("#repos");
-  repos.slice(0, 5).forEach((repo) => {
-    const repoEl = document.createElement("a");
+  repos.slice(0, 4).forEach((repo) => {
+    const repoEl = document.createElement("div");
+    repoEl.innerHTML = `
+    <a  target="_blank"href="${repo.html_url}"><h3>${repo.name}</h3></a>
+    <h4> Created : ${repo.created_at.substring(0, 10)}</h4>
+    <p>${repo.description}<p>
+    `;
     repoEl.classList.add("repo");
-    repoEl.href = repo.html_url;
-    repoEl.target = "_blank";
-
     reposEl.appendChild(repoEl);
   });
 }
